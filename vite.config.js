@@ -2,7 +2,7 @@ import { defineConfig } from "vite";
 
 export default defineConfig(() => {
   return {
-    //base: "/suika-example",
+    base: "/suika-example",
     build: {
       outDir: "./docs",
     },
