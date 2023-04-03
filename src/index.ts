@@ -3,4 +3,4 @@ import App from "./app/App";
 import "./scss/styles.scss";
 
 const el = document.querySelector("#app");
-mount(App, el);
+window.app = mount(App, el);

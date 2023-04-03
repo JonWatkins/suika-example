@@ -1,24 +1,36 @@
-import { Suika } from "suika";
+import { Component } from "suika";
+import Container from "./components/Container";
 import Header from "./components/Header";
+import Title from "./components/Title";
 import TodoList from "./components/TodoList";
+import Footer from "./components/Footer";
 
-export default class MyApp extends Suika {
-  constructor() {
-    super();
-  }
-
+export default class MyApp extends Component {
   state = {
-    title: "To Do List",
+    title: "Todo List",
   };
 
   render() {
     return (
-      <div key="root">
-        <div className="todo-list card">
-          <Header title={this.state.title} />
-          <TodoList title={this.state.title} />
-        </div>
-      </div>
+      <Container>
+        <Header>
+          <Title text={this.state.title} />
+        </Header>
+        <TodoList />
+        <Footer>
+          <small>
+            An example{" "}
+            <a
+              href="https://jonwatkins.github.io/suika/"
+              target="_blank"
+              className="text-primary"
+            >
+              Suika
+            </a>{" "}
+            todo list
+          </small>
+        </Footer>
+      </Container>
     );
   }
 }
