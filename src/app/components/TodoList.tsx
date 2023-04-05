@@ -2,6 +2,7 @@ import { Component, h, isDef } from "suika";
 import { ListGroup, CardBody } from "suika-ui";
 import { TodoItem, Todo } from "./Todo";
 import { TodoListForm } from "./TodoListForm";
+import type { vNode } from "suika/dist/vdom";
 
 let id = 0;
 
@@ -11,16 +12,16 @@ const todos: Todo[] = [
   { id: ++id, content: "Code" },
 ];
 
-export default class TodoList extends Component {
+export class TodoList extends Component {
   state = {
     todos,
   };
 
-  remove(todo: Todo) {
+  remove(todo: Todo): void {
     this.state.todos = this.state.todos.filter((i: Todo) => i.id !== todo.id);
   }
 
-  add(content: string) {
+  add(content: string): void {
     if (isDef(content)) {
       this.state.todos.push({
         id: ++id,
@@ -29,7 +30,7 @@ export default class TodoList extends Component {
     }
   }
 
-  render() {
+  render(): vNode {
     return (
       <CardBody>
         <TodoListForm add={(value: string) => this.add(value)} />

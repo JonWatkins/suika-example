@@ -1,16 +1,13 @@
 import { h, isDef } from "suika";
 import { Button, Input, InputGroup } from "suika-ui";
-
-type TodoListFormProps = {
-  add: Function;
-};
+import type { vNode, vAttrs } from "suika/dist/vdom";
 
 // Using this for input value rather than a state or attribute since
 // we don't want the input to re-render when the add button is
 // clicked, or the dom will update when the `oninput` event is called
 let newTodo = "";
 
-export const TodoListForm = ({ add }: TodoListFormProps) => {
+export const TodoListForm = ({ add }: vAttrs): vNode => {
   return (
     <form className="mb-3">
       <InputGroup>

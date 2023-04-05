@@ -1,6 +1,7 @@
 import { h } from "suika";
 import { Card } from "suika-ui";
+import type { vNode, vAttrs } from "suika/dist/vdom";
 
-export default (props: object, children: Array<any>) => (
+export const Container = (props: vAttrs, children: vNode[]): vNode => (
   <Card className="todo-list">{...children}</Card>
 );

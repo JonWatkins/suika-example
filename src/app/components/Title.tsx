@@ -1,8 +1,7 @@
 import { h } from "suika";
 import { CardTitle } from "suika-ui";
+import type { vNode, vAttrs } from "suika/dist/vdom";
 
-type props = {
-  text: string;
-};
-
-export default ({ text }: props) => <CardTitle is="h1">{text}</CardTitle>;
+export const Title = ({ text }: vAttrs): vNode => (
+  <CardTitle is="h1">{text}</CardTitle>
+);
