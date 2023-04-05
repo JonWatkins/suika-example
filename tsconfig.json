@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "lib": ["es2022", "dom"],
+    "module": "ESNext",
+    "target": "es2022",
+    "strict": true,
+    "outDir": "docs",
+    "jsx": "react",
+    "jsxFactory": "h",
+    "jsxFragmentFactory": "Fragment",
+    "moduleResolution": "node"
+  },
+  "include": ["src/**/*"]
+}

@@ -1,5 +1,5 @@
-import { Component } from "suika";
-import Todo from "./Todo";
+import { Component, h } from "suika";
+import { TodoItem, Todo } from "./Todo";
 import TodoListForm from "./TodoListForm";
 let id = 0;
 
@@ -12,11 +12,11 @@ export default class TodoList extends Component {
     ],
   };
 
-  remove(todo) {
+  remove(todo: Todo) {
     this.state.todos = this.state.todos.filter((i) => i.id !== todo.id);
   }
 
-  add(content) {
+  add(content: string) {
     this.state.todos.push({
       id: ++id,
       content,
@@ -26,10 +26,10 @@ export default class TodoList extends Component {
   render() {
     return (
       <section className="card-body">
-        <TodoListForm add={(value) => this.add(value)} />
+        <TodoListForm add={(value: string) => this.add(value)} />
         <ul className="list-group">
-          {...this.state.todos.map((todo) => (
-            <Todo todo={todo} remove={(v) => this.remove(v)} />
+          {...this.state.todos.map((todo: Todo) => (
+            <TodoItem todo={todo} remove={(v: Todo) => this.remove(v)} />
           ))}
         </ul>
       </section>

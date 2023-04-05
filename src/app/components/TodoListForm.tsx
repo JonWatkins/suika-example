@@ -1,4 +1,4 @@
-import { Component } from "suika";
+import { Component, h } from "suika";
 
 export default class TodoListForm extends Component {
   state = {
@@ -13,11 +13,16 @@ export default class TodoListForm extends Component {
             key="input"
             className="form-control"
             value={this.state.newTodo}
-            onblur={(e) => (this.state.newTodo = e.target.value)}
+            onblur={(e: Event) => {
+              const { target } = e;
+              if (target) {
+                this.state.newTodo = (target as HTMLInputElement).value;
+              }
+            }}
           />
           <button
             className="btn btn-primary"
-            onclick={(e) => {
+            onclick={(e: Event) => {
               e.preventDefault();
               this.attrs.add(this.state.newTodo);
               this.state.newTodo = "";

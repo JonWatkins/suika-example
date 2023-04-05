@@ -34,7 +34,7 @@ module.exports = {
     "prettier/prettier": ["error", {}, { usePrettierrc: true }],
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/no-empty-function": "off",
-    "@typescript-eslint/ban-types": "off",
+    "@typescript-eslint/ban-types": "off"
   },
   globals: {
     describe: true,

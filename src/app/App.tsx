@@ -1,4 +1,4 @@
-import { Component } from "suika";
+import { Component, h } from "suika";
 import Container from "./components/Container";
 import Header from "./components/Header";
 import Title from "./components/Title";
@@ -8,7 +8,12 @@ import Footer from "./components/Footer";
 export default class MyApp extends Component {
   state = {
     title: "Todo List",
+    count: 0,
   };
+
+  inc() {
+    this.state.count++;
+  }
 
   render() {
     return (
