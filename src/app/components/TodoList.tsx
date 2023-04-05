@@ -3,17 +3,19 @@ import { TodoItem, Todo } from "./Todo";
 import TodoListForm from "./TodoListForm";
 let id = 0;
 
+const todos: Todo[] = [
+  { id: ++id, content: "Eat" },
+  { id: ++id, content: "Sleep" },
+  { id: ++id, content: "Code" },
+];
+
 export default class TodoList extends Component {
   state = {
-    todos: [
-      { id: ++id, content: "Eat" },
-      { id: ++id, content: "Sleep" },
-      { id: ++id, content: "Code" },
-    ],
+    todos,
   };
 
   remove(todo: Todo) {
-    this.state.todos = this.state.todos.filter((i) => i.id !== todo.id);
+    this.state.todos = this.state.todos.filter((i: Todo) => i.id !== todo.id);
   }
 
   add(content: string) {

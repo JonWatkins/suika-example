@@ -8,12 +8,7 @@ import Footer from "./components/Footer";
 export default class MyApp extends Component {
   state = {
     title: "Todo List",
-    count: 0,
   };
-
-  inc() {
-    this.state.count++;
-  }
 
   render() {
     return (
