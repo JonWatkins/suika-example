@@ -1,4 +1,5 @@
 import { h } from "suika";
+import { Button, ListGroupItem } from "suika-ui";
 
 export type Todo = {
   id: number;
@@ -11,12 +12,12 @@ export type TodoProps = {
 };
 
 export const TodoItem = ({ todo, remove }: TodoProps) => (
-  <li className="list-group-item">
+  <ListGroupItem>
     <div className="d-flex">
       <div className="flex-grow">{todo.content}</div>
-      <button className="btn btn-danger" onclick={() => remove(todo)}>
+      <Button color="danger" size="sm" onclick={() => remove(todo)}>
         Delete
-      </button>
+      </Button>
     </div>
-  </li>
+  </ListGroupItem>
 );

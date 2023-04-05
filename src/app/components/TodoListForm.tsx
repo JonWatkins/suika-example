@@ -1,37 +1,41 @@
-import { Component, h } from "suika";
+import { h, isDef } from "suika";
+import { Button, Input, InputGroup } from "suika-ui";
 
-export default class TodoListForm extends Component {
-  state = {
-    newTodo: "",
-  };
+type TodoListFormProps = {
+  add: Function;
+};
 
-  render() {
-    return (
-      <form className="mb-3">
-        <div className="input-group">
-          <input
-            key="input"
-            className="form-control"
-            value={this.state.newTodo}
-            onblur={(e: Event) => {
-              const { target } = e;
-              if (target) {
-                this.state.newTodo = (target as HTMLInputElement).value;
-              }
-            }}
-          />
-          <button
-            className="btn btn-primary"
-            onclick={(e: Event) => {
-              e.preventDefault();
-              this.attrs.add(this.state.newTodo);
-              this.state.newTodo = "";
-            }}
-          >
-            Add Todo
-          </button>
-        </div>
-      </form>
-    );
-  }
-}
+// Using this for input value rather than a state or attribute since
+// we don't want the input to re-render when the add button is
+// clicked, or the dom will update when the `oninput` event is called
+let newTodo = "";
+
+export const TodoListForm = ({ add }: TodoListFormProps) => {
+  return (
+    <form className="mb-3">
+      <InputGroup>
+        <Input
+          value={newTodo}
+          oninput={(e: Event) => {
+            const { target } = e;
+            if (isDef(target)) {
+              newTodo = (target as HTMLInputElement).value;
+            }
+          }}
+        />
+        <Button
+          color="primary"
+          size="lg"
+          onclick={(e: Event) => {
+            e.preventDefault();
+            const res = newTodo; // store value
+            newTodo = ""; // reset value so input clears on add
+            add(res);
+          }}
+        >
+          Add Todo
+        </Button>
+      </InputGroup>
+    </form>
+  );
+};

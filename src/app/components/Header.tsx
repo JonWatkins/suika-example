@@ -1,5 +1,6 @@
 import { h } from "suika";
+import { CardHeader } from "suika-ui";
 
 export default (props: object, children: Array<any>) => (
-  <header className="card-header bg-light">{...children}</header>
+  <CardHeader className="bg-light">{...children}</CardHeader>
 );

@@ -1,6 +1,8 @@
-import { Component, h } from "suika";
+import { Component, h, isDef } from "suika";
+import { ListGroup, CardBody } from "suika-ui";
 import { TodoItem, Todo } from "./Todo";
-import TodoListForm from "./TodoListForm";
+import { TodoListForm } from "./TodoListForm";
+
 let id = 0;
 
 const todos: Todo[] = [
@@ -19,22 +21,24 @@ export default class TodoList extends Component {
   }
 
   add(content: string) {
-    this.state.todos.push({
-      id: ++id,
-      content,
-    });
+    if (isDef(content)) {
+      this.state.todos.push({
+        id: ++id,
+        content,
+      });
+    }
   }
 
   render() {
     return (
-      <section className="card-body">
+      <CardBody>
         <TodoListForm add={(value: string) => this.add(value)} />
-        <ul className="list-group">
+        <ListGroup>
           {...this.state.todos.map((todo: Todo) => (
             <TodoItem todo={todo} remove={(v: Todo) => this.remove(v)} />
           ))}
-        </ul>
-      </section>
+        </ListGroup>
+      </CardBody>
     );
   }
 }

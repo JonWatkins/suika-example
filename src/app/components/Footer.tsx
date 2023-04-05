@@ -1,5 +1,6 @@
 import { h } from "suika";
+import { CardFooter } from "suika-ui";
 
 export default (props: object, children: Array<any>) => (
-  <div className="card-footer text-center bg-light">{...children}</div>
+  <CardFooter className="text-center bg-light">{...children}</CardFooter>
 );

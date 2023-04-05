@@ -1,5 +1,6 @@
 import { h } from "suika";
+import { Card } from "suika-ui";
 
 export default (props: object, children: Array<any>) => (
-  <div className="todo-list card">{...children}</div>
+  <Card className="todo-list">{...children}</Card>
 );

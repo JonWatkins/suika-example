@@ -1,14 +1,8 @@
 import { h } from "suika";
+import { CardTitle } from "suika-ui";
 
 type props = {
   text: string;
 };
 
-export default ({ text }: props) => (
-  <div className="card-title">
-    <h2>
-      <i className="bi bi-check2-square me-3"></i>
-      {text}
-    </h2>
-  </div>
-);
+export default ({ text }: props) => <CardTitle is="h1">{text}</CardTitle>;
