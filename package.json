@@ -34,7 +34,8 @@
   },
   "dependencies": {
     "cross-env": "^7.0.3",
-    "suika": "^1.3.7",
-    "suika-ui": "^1.1.4"
+    "suika": "^1.4.1",
+    "suika-router": "^1.0.0",
+    "suika-ui": "^1.1.7"
   }
 }

@@ -1,5 +1,5 @@
-import { mount } from "suika";
-import App from "./app/App";
+import { mount, Reactive } from "suika";
+import { App } from "./app/App";
 import "./scss/styles.scss";
 
 const el = document.querySelector("#app");

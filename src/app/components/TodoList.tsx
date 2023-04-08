@@ -17,11 +17,11 @@ export class TodoList extends Component {
     todos,
   };
 
-  remove(todo: Todo): void {
+  public remove(todo: Todo): void {
     this.state.todos = this.state.todos.filter((i: Todo) => i.id !== todo.id);
   }
 
-  add(content: string): void {
+  public add(content: string): void {
     if (isDef(content)) {
       this.state.todos.push({
         id: ++id,
@@ -30,7 +30,7 @@ export class TodoList extends Component {
     }
   }
 
-  render(): vNode {
+  public render(): vNode {
     return (
       <CardBody>
         <TodoListForm add={(value: string) => this.add(value)} />

@@ -1,23 +1,23 @@
+import type { vNode } from "suika/dist/vdom";
 import { Component, h } from "suika";
+import { CardBody } from "suika-ui";
+import { RouterView } from "suika-router";
 import { Container } from "./components/Container";
 import { Header } from "./components/Header";
 import { Title } from "./components/Title";
-import { TodoList } from "./components/TodoList";
 import { Footer } from "./components/Footer";
-import type { vNode } from "suika/dist/vdom";
+import { router } from "./router";
 
-export default class MyApp extends Component {
-  state = {
-    title: "Todo List",
-  };
-
-  render(): vNode {
+export class App extends Component {
+  public render(): vNode {
     return (
       <Container>
         <Header>
-          <Title text={this.state.title} />
+          <Title text="Todo List" />
         </Header>
-        <TodoList />
+        <CardBody>
+          <RouterView router={router} />
+        </CardBody>
         <Footer>
           <small>
             An example{" "}

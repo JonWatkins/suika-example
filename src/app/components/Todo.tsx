@@ -1,6 +1,7 @@
 import { h } from "suika";
 import { Button, ListGroupItem } from "suika-ui";
 import type { vNode } from "suika/dist/vdom";
+import { removeTodo } from "../state";
 
 export type Todo = {
   id: number;
@@ -9,14 +10,13 @@ export type Todo = {
 
 export type TodoProps = {
   todo: Todo;
-  remove: Function;
 };
 
-export const TodoItem = ({ todo, remove }: TodoProps): vNode => (
+export const TodoItem = ({ todo }: TodoProps): vNode => (
   <ListGroupItem>
     <div className="d-flex">
       <div className="flex-grow">{todo.content}</div>
-      <Button color="danger" size="sm" onclick={() => remove(todo)}>
+      <Button color="danger" size="sm" onclick={() => removeTodo(todo)}>
         Delete
       </Button>
     </div>

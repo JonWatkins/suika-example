@@ -1,16 +1,18 @@
 import { h, isDef } from "suika";
-import { Button, Input, InputGroup } from "suika-ui";
-import type { vNode, vAttrs } from "suika/dist/vdom";
+import { Button, ButtonGroup, Input, InputGroup } from "suika-ui";
+import type { vNode } from "suika/dist/vdom";
+import { addTodo } from "../state";
+import { navigate } from "suika-router";
 
 // Using this for input value rather than a state or attribute since
 // we don't want the input to re-render when the add button is
 // clicked, or the dom will update when the `oninput` event is called
 let newTodo = "";
 
-export const TodoListForm = ({ add }: vAttrs): vNode => {
+export const TodoListForm = (): vNode => {
   return (
     <form className="mb-3">
-      <InputGroup>
+      <InputGroup className="mb-3">
         <Input
           value={newTodo}
           oninput={(e: Event) => {
@@ -20,19 +22,30 @@ export const TodoListForm = ({ add }: vAttrs): vNode => {
             }
           }}
         />
+      </InputGroup>
+      <ButtonGroup>
+        <Button
+          color="danger"
+          onclick={(e: Event) => {
+            e.preventDefault();
+            navigate("/");
+          }}
+        >
+          Cancel
+        </Button>
         <Button
           color="primary"
-          size="lg"
           onclick={(e: Event) => {
             e.preventDefault();
             const res = newTodo; // store value
             newTodo = ""; // reset value so input clears on add
-            add(res);
+            addTodo(res);
+            navigate("/");
           }}
         >
           Add Todo
         </Button>
-      </InputGroup>
+      </ButtonGroup>
     </form>
   );
 };
