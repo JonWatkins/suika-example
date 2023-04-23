@@ -1,5 +1,4 @@
-import type { vNode } from "suika/dist/vdom";
-import { Component, h } from "suika";
+import { Component, h, vNode } from "suika";
 import { CardBody } from "suika-ui";
 import { RouterView } from "suika-router";
 import { Container } from "./components/Container";

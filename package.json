@@ -22,6 +22,7 @@
     "@types/jest": "^29.5.0",
     "@typescript-eslint/eslint-plugin": "^5.57.0",
     "babel-jest": "^29.5.0",
+    "cross-env": "^7.0.3",
     "eslint": "^8.37.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
@@ -33,9 +34,8 @@
     "vite": "^4.2.1"
   },
   "dependencies": {
-    "cross-env": "^7.0.3",
-    "suika": "^1.4.1",
-    "suika-router": "^1.0.0",
-    "suika-ui": "^1.1.7"
+    "suika": "^1.5.1",
+    "suika-router": "^1.5.1",
+    "suika-ui": "^1.5.1"
   }
 }

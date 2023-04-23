@@ -1,8 +1,7 @@
-import { Component, h } from "suika";
+import { Component, h, vNode } from "suika";
 import { ListGroup } from "suika-ui";
 import { RouterLink } from "suika-router";
 import { TodoItem } from "../components/Todo";
-import type { vNode } from "suika/dist/vdom";
 import { todos, Todo } from "../state";
 
 export class TodoList extends Component {

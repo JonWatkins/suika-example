@@ -1,5 +1,4 @@
-import type { Route } from "suika-router/dist/router";
-import { createRouter } from "suika-router";
+import { createRouter, Route } from "suika-router";
 import { TodoList } from "./routes/TodoList";
 import { NewTodo } from "./routes/NewTodo";
 import { EditTodo } from "./routes/EditTodo";

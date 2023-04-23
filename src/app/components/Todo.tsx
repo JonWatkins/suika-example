@@ -1,6 +1,5 @@
-import { h } from "suika";
+import { h, vNode } from "suika";
 import { Button, ListGroupItem } from "suika-ui";
-import type { vNode } from "suika/dist/vdom";
 import { removeTodo } from "../state";
 
 export type Todo = {

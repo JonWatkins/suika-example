@@ -1,8 +1,7 @@
-import { Component, h, isDef } from "suika";
+import { Component, h, isDef, vNode } from "suika";
 import { ListGroup, CardBody } from "suika-ui";
 import { TodoItem, Todo } from "./Todo";
 import { TodoListForm } from "./TodoListForm";
-import type { vNode } from "suika/dist/vdom";
 
 let id = 0;
 

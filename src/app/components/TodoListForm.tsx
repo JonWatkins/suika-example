@@ -1,6 +1,5 @@
-import { h, isDef } from "suika";
+import { h, isDef, vNode } from "suika";
 import { Button, ButtonGroup, Input, InputGroup } from "suika-ui";
-import type { vNode } from "suika/dist/vdom";
 import { addTodo } from "../state";
 import { navigate } from "suika-router";
 

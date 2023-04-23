@@ -1,4 +1,4 @@
-import { mount, Reactive } from "suika";
+import { mount } from "suika";
 import { App } from "./app/App";
 import "./scss/styles.scss";
 
