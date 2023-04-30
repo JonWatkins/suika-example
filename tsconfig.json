@@ -4,7 +4,7 @@
     "module": "ESNext",
     "target": "es2022",
     "strict": true,
-    "outDir": "docs",
+    "outDir": "dist",
     "jsx": "react",
     "jsxFactory": "h",
     "jsxFragmentFactory": "Fragment",

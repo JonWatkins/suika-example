@@ -4,7 +4,7 @@ export default defineConfig(() => {
   return {
     base: "/suika-example",
     build: {
-      outDir: "./docs",
+      outDir: "./dist",
     },
     esbuild: {
       jsxFactory: "h",
