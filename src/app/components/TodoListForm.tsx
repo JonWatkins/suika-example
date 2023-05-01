@@ -36,10 +36,12 @@ export const TodoListForm = (): vNode => {
           color="primary"
           onclick={(e: Event) => {
             e.preventDefault();
-            const res = newTodo; // store value
-            newTodo = ""; // reset value so input clears on add
-            addTodo(res);
-            navigate("/");
+            if (newTodo.length > 0) {
+              const res = newTodo; // store value
+              newTodo = ""; // reset value so input clears on add
+              addTodo(res);
+              navigate("/");
+            }
           }}
         >
           Add Todo

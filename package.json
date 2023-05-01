@@ -36,8 +36,8 @@
     "vite": "^4.2.1"
   },
   "dependencies": {
-    "suika": "^1.5.1",
-    "suika-router": "^1.5.1",
-    "suika-ui": "^1.5.1"
+    "suika": "^1.5.3",
+    "suika-router": "^1.5.3",
+    "suika-ui": "^1.5.3"
   }
 }

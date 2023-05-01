@@ -1,12 +1,7 @@
-import { createRouter, Route } from "suika-router";
+import { createRouter, RouterOptions } from "suika-router";
 import { TodoList } from "./routes/TodoList";
 import { NewTodo } from "./routes/NewTodo";
 import { EditTodo } from "./routes/EditTodo";
-
-export interface RouterOptions {
-  mode: string;
-  routes: Route[];
-}
 
 export const router = createRouter({
   mode: "hash",

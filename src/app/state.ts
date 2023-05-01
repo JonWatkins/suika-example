@@ -1,4 +1,4 @@
-import { Reactive } from "suika";
+import { reactive } from "suika";
 
 let id = 0;
 
@@ -7,7 +7,7 @@ export type Todo = {
   content: string;
 };
 
-export const todos = new Reactive({
+export const todos = reactive({
   list: [
     { id: ++id, content: "Eat" },
     { id: ++id, content: "Sleep" },
