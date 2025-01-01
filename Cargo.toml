@@ -1,0 +1,12 @@
+[package]
+name = "suika_test"
+description = "A simple example of the suika web stack"
+version = "0.1.0"
+edition = "2021"
+authors = ["Jon Watkins"]
+repository = "https://github.com/JonWatkins/suika/tree/master/crates/suika_example"
+license = "MIT"
+readme = "README.md"
+
+[dependencies]
+suika = "0.1.1"

@@ -1,0 +1,14 @@
+{% extend base.html %}
+
+{% block title %}Home - Simple Blog{% endblock %}
+
+{% block content %}
+<ul class="post-list">
+    {% for post in posts %}
+        <li class="post-item">
+            <h3 class="post-title">{{ post.title }}</h3>
+            <p class="post-content">{{ post.content }}</p>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}
