@@ -11,11 +11,14 @@ use suika::{
 
 use std::{collections::HashMap, sync::Arc};
 
+/// Represents a blog post with a title and content.
 pub struct BlogPost {
     pub title: String,
     pub content: String,
 }
 
+/// Returns a list of blog posts.
+/// This is a placeholder for fetching posts from a database or another data source.
 fn get_blog_posts() -> Vec<BlogPost> {
     vec![
         BlogPost {
@@ -30,9 +33,11 @@ fn get_blog_posts() -> Vec<BlogPost> {
 }
 
 fn main() {
+    // Create a new server instance.
     let server = Server::new();
     let mut router = Router::new();
 
+    // Initialize the template engine and load templates from the "templates" directory.
     let template_engine = Arc::new({
         let mut engine = TemplateEngine::new();
 
@@ -43,12 +48,15 @@ fn main() {
         engine
     });
 
+    // Define the route for the home page.
     router.get("/", move |_req, res, _next| {
         let template_engine = Arc::clone(&template_engine);
         async move {
+            // Get the list of blog posts.
             let blog_posts = get_blog_posts();
             let mut context = HashMap::new();
 
+            // Prepare the context for the template.
             context.insert(
                 "posts".to_string(),
                 TemplateValue::Array(
@@ -70,6 +78,7 @@ fn main() {
                 ),
             );
 
+            // Render the "home.html" template with the context.
             match template_engine.render("home.html", &context) {
                 Ok(rendered) => res.body(rendered),
                 Err(e) => {
@@ -81,8 +90,10 @@ fn main() {
         }
     });
 
+    // Wrap the router in an Arc for shared ownership.
     let router = Arc::new(router);
 
+    // Combine multiple middlewares into a single middleware.
     let combined_middleware = combine_middlewares(vec![
         Arc::new(favicon_middleware("public/favicon.ico")),
         Arc::new(static_file_middleware("/public", "public", 3600)),
@@ -93,6 +104,9 @@ fn main() {
         }),
     ]);
 
+    // Use the combined middleware in the server.
     server.use_middleware(move |req, res, next| combined_middleware(req, res, next));
+
+    // Start the server and listen on the specified address.
     server.listen("127.0.0.1:7878");
 }
