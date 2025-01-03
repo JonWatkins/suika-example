@@ -1,44 +1,23 @@
-use suika::{
-    server::{
-        middleware::{
-            combine_middlewares, favicon_middleware, logger_middleware, static_file_middleware,
-        },
-        router::Router,
-        Server,
-    },
-    templates::{TemplateEngine, TemplateValue},
-};
+mod todos;
+use crate::todos::TodoStore;
 
 use std::{collections::HashMap, sync::Arc};
 
-/// Represents a blog post with a title and content.
-pub struct BlogPost {
-    pub title: String,
-    pub content: String,
-}
-
-/// Returns a list of blog posts.
-/// This is a placeholder for fetching posts from a database or another data source.
-fn get_blog_posts() -> Vec<BlogPost> {
-    vec![
-        BlogPost {
-            title: "First Post".to_string(),
-            content: "This is the content of the first post.".to_string(),
-        },
-        BlogPost {
-            title: "Second Post".to_string(),
-            content: "This is the content of the second post.".to_string(),
-        },
-    ]
-}
+use suika::{
+    middleware::{
+        CorsMiddleware, FaviconMiddleware, LoggerMiddleware, StaticFileMiddleware,
+        WasmFileMiddleware,
+    },
+    server::{Router, Server, HttpError},
+    templates::{TemplateEngine, TemplateValue},
+};
 
 fn main() {
-    // Create a new server instance.
-    let server = Server::new();
-    let mut router = Router::new();
+    let mut server = Server::new("127.0.0.1:8080");
+    let mut router = Router::new("/");
+    let todo_store = TodoStore::new();
 
-    // Initialize the template engine and load templates from the "templates" directory.
-    let template_engine = Arc::new({
+    let template_engine = {
         let mut engine = TemplateEngine::new();
 
         engine
@@ -46,67 +25,144 @@ fn main() {
             .expect("Failed to load templates from directory");
 
         engine
-    });
+    };
 
-    // Define the route for the home page.
-    router.get("/", move |_req, res, _next| {
-        let template_engine = Arc::clone(&template_engine);
-        async move {
-            // Get the list of blog posts.
-            let blog_posts = get_blog_posts();
+    todo_store.add_todo(
+        "First Todo".to_string(),
+        "This is the content of the first todo.".to_string(),
+    );
+
+    todo_store.add_todo(
+        "Second Todo".to_string(),
+        "This is the content of the second todo.".to_string(),
+    );
+
+    router.add_route(Some("GET"), r"/$", move |req, res| {
+        Box::pin(async move {
+            let todos = req.module::<TodoStore>("todo_store")
+                .ok_or_else(|| {
+                    let msg = "Error retrieving todo store".to_string();
+                    eprintln!("{}", msg);
+                    HttpError::InternalServerError(msg)
+                })
+                .map(|store| store.get_todos())?;
+    
             let mut context = HashMap::new();
 
-            // Prepare the context for the template.
             context.insert(
-                "posts".to_string(),
+                "page_title".to_string(),
+                TemplateValue::String("Todos".to_string()),
+            );
+    
+            context.insert(
+                "todos".to_string(),
                 TemplateValue::Array(
-                    blog_posts
+                    todos
                         .iter()
-                        .map(|post| {
-                            let mut post_map = HashMap::new();
-                            post_map.insert(
+                        .map(|todo| {
+                            let mut todo_map = HashMap::new();
+                            todo_map.insert(
+                                "id".to_string(),
+                                TemplateValue::String(todo.id.to_string()),
+                            );
+                            todo_map.insert(
                                 "title".to_string(),
-                                TemplateValue::String(post.title.clone()),
+                                TemplateValue::String(todo.title.clone()),
                             );
-                            post_map.insert(
+                            todo_map.insert(
+                                "slug".to_string(),
+                                TemplateValue::String(todo.slug.clone()),
+                            );
+                            todo_map.insert(
                                 "content".to_string(),
-                                TemplateValue::String(post.content.clone()),
+                                TemplateValue::String(todo.content.clone()),
                             );
-                            TemplateValue::Object(post_map)
+                            TemplateValue::Object(todo_map)
                         })
                         .collect(),
                 ),
             );
-
-            // Render the "home.html" template with the context.
-            match template_engine.render("home.html", &context) {
-                Ok(rendered) => res.body(rendered),
-                Err(e) => {
-                    res.set_status(500);
-                    res.body(format!("Template rendering error: {}", e));
-                }
-            }
+    
+            res.set_status(200).await;
+            res.render_template("index.html", &context).await?;
+    
             Ok(())
-        }
+        })
     });
 
-    // Wrap the router in an Arc for shared ownership.
-    let router = Arc::new(router);
+    router.add_route(Some("POST"), "/add", move |req, res| {
+        Box::pin(async move {
+            if let Some(form_data) = req.form_data() {
+                let title = form_data.get("title").unwrap_or(&String::new()).to_string();
+                let content = form_data.get("content").unwrap_or(&String::new()).to_string();
+    
+                if !title.is_empty() && !content.is_empty() {
+                    if let Some(todo_store) = req.module::<TodoStore>("todo_store") {
+                        let todo = todo_store.add_todo(title, content);
+    
+                        let response_message = format!(
+                            "Todo added successfully: id={}, title={}, slug={}, content={}\n",
+                            todo.id, todo.title, todo.slug, todo.content
+                        );
+                        res.set_status(200).await;
+                        res.body(response_message).await;
+                    } else {
+                        res.set_status(500).await;
+                        res.body("Internal server error: Todo store not found!\n".to_string()).await;
+                    }
+                } else {
+                    res.set_status(400).await;
+                    res.body("Title and content cannot be empty!\n".to_string()).await;
+                }
+            } else {
+                res.set_status(400).await;
+                res.body("Invalid form data received!\n".to_string()).await;
+            }
+            Ok(())
+        })
+    });
 
-    // Combine multiple middlewares into a single middleware.
-    let combined_middleware = combine_middlewares(vec![
-        Arc::new(favicon_middleware("public/favicon.ico")),
-        Arc::new(static_file_middleware("/public", "public", 3600)),
-        Arc::new(logger_middleware),
-        Arc::new(move |req, res, next| {
-            let router = Arc::clone(&router);
-            Box::pin(async move { router.handle(req, res, next).await })
-        }),
-    ]);
+    router.add_route(Some("DELETE"), "/remove", move |req, res| {
+        Box::pin(async move {
+            if let Some(form_data) = req.form_data() {
+                let id_str = form_data.get("id").unwrap_or(&String::new()).to_string();
+                if let Ok(id) = id_str.parse::<usize>() {
+                    if let Some(todo_store) = req.module::<TodoStore>("todo_store") {
+                        if todo_store.remove_todo(id) {
+                            res.set_status(200).await;
+                            res.body("Todo removed successfully".to_string()).await;
+                        } else {
+                            res.set_status(404).await;
+                            res.body("Todo not found!\n".to_string()).await;
+                        }
+                    } else {
+                        res.set_status(500).await;
+                        res.body("Internal server error: Todo store not found!\n".to_string()).await;
+                    }
+                } else {
+                    res.set_status(400).await;
+                    res.body("Invalid ID received!\n".to_string()).await;
+                }
+            } else {
+                res.set_status(400).await;
+                res.body("Invalid form data received!\n".to_string()).await;
+            }
+            Ok(())
+        })
+    });
 
-    // Use the combined middleware in the server.
-    server.use_middleware(move |req, res, next| combined_middleware(req, res, next));
+    server.use_middleware(Arc::new(CorsMiddleware));
+    server.use_middleware(Arc::new(LoggerMiddleware));
+    server.use_middleware(Arc::new(WasmFileMiddleware::new("/wasm", 86400)));
 
-    // Start the server and listen on the specified address.
-    server.listen("127.0.0.1:7878");
+    server.use_middleware(Arc::new(FaviconMiddleware::new("public/favicon.ico")));
+
+    server.use_middleware(Arc::new(StaticFileMiddleware::new(
+        "/public", "public", 3600,
+    )));
+
+    server.use_middleware(Arc::new(router));
+    server.use_templates(template_engine);
+    server.use_module("todo_store", todo_store);
+    server.run(None);
 }

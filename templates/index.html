@@ -1,0 +1,14 @@
+<% extend base.html %>
+<% block title %><%= page_title %><% endblock %>
+<% block content %>
+    <button class="add-todo-button">Add Todo</button>
+    <ul class="todo-list">
+        <% for todo in todos %>
+            <li class="todo-item">
+                <h3 class="todo-title"><%= todo.title %></h3>
+                <p class="todo-content"><%= todo.content %></p>
+                <button>Delete</button>
+            </li>
+        <% endfor %>
+    </ul>
+<% endblock %>

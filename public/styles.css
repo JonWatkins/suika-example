@@ -2,23 +2,48 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f4f4f4;
+  background-color: #eaeaea;
 }
 
 .site-header {
-  background-color: #333;
+  background-color: #555;
   color: #fff;
-  padding: 10px 0;
+  padding: 20px 0;
   text-align: center;
 }
 
 .site-title {
   margin: 0;
-  font-size: 24px;
+  font-size: 28px;
+}
+
+.site-nav {
+  margin-top: 10px;
+}
+
+.site-nav ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.site-nav li {
+  margin: 0 15px;
+}
+
+.site-nav a {
+  color: #ddd;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+.site-nav a:hover {
+  text-decoration: underline;
 }
 
 .site-footer {
-  background-color: #333;
+  background-color: #555;
   color: #fff;
   text-align: center;
   padding: 10px 0;
@@ -28,31 +53,62 @@ body {
 }
 
 .content {
-  max-width: 800px;
-  margin: 20px auto;
-  padding: 20px;
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 30px;
   background-color: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.post-list {
+.todo-list {
   list-style: none;
   padding: 0;
 }
 
-.post-item {
+.todo-item {
   margin-bottom: 20px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 8px;
+  background-color: #f7f7f7;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.post-title {
+.todo-title {
   margin: 0 0 10px;
-  font-size: 20px;
+  font-size: 22px;
   color: #333;
 }
 
-.post-content {
-  margin: 0;
+.todo-content {
+  margin: 0 0 10px;
   color: #666;
+}
+
+.todo-item button {
+  background-color: #888;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.todo-item button:hover {
+  background-color: #555;
+}
+
+.add-todo-button {
+  display: block;
+  margin: 0 0 20px auto;
+  padding: 10px 20px;
+  background-color: #888;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.add-todo-button:hover {
+  background-color: #555;
 }

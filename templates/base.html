@@ -3,14 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Simple Blog{% endblock %}</title>
+    <title><% block title %>Todos<% endblock %></title>
     <link rel="stylesheet" href="/public/styles.css">
 </head>
 <body>
-    {% include header.html %}
+    <% include header.html %>
     <div class="content">
-        {% block content %}{% endblock %}
+        <% block content %><% endblock %>
     </div>
-    {% include footer.html %}
+    <% include footer.html %>
+    <script type="module">
+        import init from '/wasm/suika_ui.js';
+        async function loadWasm() {
+            try {
+            const wasm = await init('/wasm/suika_ui_bg.wasm');
+            } catch (error) {
+            console.error('Failed to load WebAssembly module:', error);
+            }
+        }
+        window.addEventListener('load', loadWasm);
+    </script>
 </body>
 </html>
