@@ -368,9 +368,9 @@ dependencies = [
 
 [[package]]
 name = "suika"
-version = "0.1.10"
+version = "0.1.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e0c99713a96326bd8ac4db7d4977c3ae01794bd0c50f24682f82e8bd55c01b9c"
+checksum = "57982a60b71be77f957124e6650a749d9ad7470c3a5e62e92c6a93917b95176f"
 dependencies = [
  "suika_json",
  "suika_mime",
@@ -397,9 +397,9 @@ checksum = "49a81f91cc904fcaea25b05192b64dea54d8b577170e66a427896540e4b027f0"
 
 [[package]]
 name = "suika_server"
-version = "0.1.4"
+version = "0.1.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "90501954316f3834122a4e6b3833a895c0e746fb96961932ab03fb75c971a3d0"
+checksum = "f35d14c715213007ef8126f885214d9311c00753f9207e95d8e439a729afd733"
 dependencies = [
  "futures",
  "regex",
@@ -434,9 +434,9 @@ checksum = "d14b72bca187e8f2530da6f4438aa769ce066c89eabf8e8238a001d61a04a10c"
 
 [[package]]
 name = "suika_wasm"
-version = "0.1.6"
+version = "0.1.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "05c8ec4fa67b714fd777d452739eccdd5857395a6db98ad9ffdf041e5efab67c"
+checksum = "7a2b3ffd794c8fec727d8949be1329fe46646f7c6194ebef8dc3a941f0f1c04d"
 dependencies = [
  "suika_mime",
  "suika_server",

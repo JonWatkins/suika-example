@@ -8,7 +8,7 @@ use suika::{
         CorsMiddleware, FaviconMiddleware, LoggerMiddleware, StaticFileMiddleware,
         WasmFileMiddleware,
     },
-    server::{Router, Server, HttpError},
+    server::{HttpError, Router, Server},
     templates::{TemplateEngine, TemplateValue},
 };
 
@@ -37,23 +37,24 @@ fn main() {
         "This is the content of the second todo.".to_string(),
     );
 
-    router.add_route(Some("GET"), r"/$", move |req, res| {
+    router.get(r"/$", move |req, res| {
         Box::pin(async move {
-            let todos = req.module::<TodoStore>("todo_store")
+            let todos = req
+                .module::<TodoStore>("todo_store")
                 .ok_or_else(|| {
                     let msg = "Error retrieving todo store".to_string();
                     eprintln!("{}", msg);
                     HttpError::InternalServerError(msg)
                 })
                 .map(|store| store.get_todos())?;
-    
+
             let mut context = HashMap::new();
 
             context.insert(
                 "page_title".to_string(),
                 TemplateValue::String("Todos".to_string()),
             );
-    
+
             context.insert(
                 "todos".to_string(),
                 TemplateValue::Array(
@@ -82,24 +83,27 @@ fn main() {
                         .collect(),
                 ),
             );
-    
+
             res.set_status(200).await;
             res.render_template("index.html", &context).await?;
-    
+
             Ok(())
         })
     });
 
-    router.add_route(Some("POST"), "/add", move |req, res| {
+    router.post("/add", move |req, res| {
         Box::pin(async move {
             if let Some(form_data) = req.form_data() {
                 let title = form_data.get("title").unwrap_or(&String::new()).to_string();
-                let content = form_data.get("content").unwrap_or(&String::new()).to_string();
-    
+                let content = form_data
+                    .get("content")
+                    .unwrap_or(&String::new())
+                    .to_string();
+
                 if !title.is_empty() && !content.is_empty() {
                     if let Some(todo_store) = req.module::<TodoStore>("todo_store") {
                         let todo = todo_store.add_todo(title, content);
-    
+
                         let response_message = format!(
                             "Todo added successfully: id={}, title={}, slug={}, content={}\n",
                             todo.id, todo.title, todo.slug, todo.content
@@ -108,11 +112,13 @@ fn main() {
                         res.body(response_message).await;
                     } else {
                         res.set_status(500).await;
-                        res.body("Internal server error: Todo store not found!\n".to_string()).await;
+                        res.body("Internal server error: Todo store not found!\n".to_string())
+                            .await;
                     }
                 } else {
                     res.set_status(400).await;
-                    res.body("Title and content cannot be empty!\n".to_string()).await;
+                    res.body("Title and content cannot be empty!\n".to_string())
+                        .await;
                 }
             } else {
                 res.set_status(400).await;
@@ -122,7 +128,7 @@ fn main() {
         })
     });
 
-    router.add_route(Some("DELETE"), "/remove", move |req, res| {
+    router.delete("/remove", move |req, res| {
         Box::pin(async move {
             if let Some(form_data) = req.form_data() {
                 let id_str = form_data.get("id").unwrap_or(&String::new()).to_string();
@@ -137,7 +143,8 @@ fn main() {
                         }
                     } else {
                         res.set_status(500).await;
-                        res.body("Internal server error: Todo store not found!\n".to_string()).await;
+                        res.body("Internal server error: Todo store not found!\n".to_string())
+                            .await;
                     }
                 } else {
                     res.set_status(400).await;
