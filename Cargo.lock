@@ -167,6 +167,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "07e28edb80900c19c28f1072f2e8aeca7fa06b23cd4169cefe1af5aa3260783f"
 
 [[package]]
+name = "glob"
+version = "0.3.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a8d1add55171497b4705a648c6b583acafb01d58050a51727785f0b2c8e0a2b2"
+
+[[package]]
 name = "libc"
 version = "0.2.169"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -368,9 +374,9 @@ dependencies = [
 
 [[package]]
 name = "suika"
-version = "0.1.11"
+version = "0.1.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "57982a60b71be77f957124e6650a749d9ad7470c3a5e62e92c6a93917b95176f"
+checksum = "9e90f07474da8025c3cbdc98099a119a9829e4872356ccaab796392cbd6b755c"
 dependencies = [
  "suika_json",
  "suika_mime",
@@ -382,9 +388,9 @@ dependencies = [
 
 [[package]]
 name = "suika_json"
-version = "0.1.2"
+version = "0.1.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5efe0d550c071a12e4a1ba83eb1be25bc7c82ce0e86c7213f0dccacbac76cf66"
+checksum = "5cdbc28d03faee838db22a0ff4b66d52215d460af802d0b525ec10a71ad44b6a"
 dependencies = [
  "suika_utils",
 ]
@@ -397,9 +403,9 @@ checksum = "49a81f91cc904fcaea25b05192b64dea54d8b577170e66a427896540e4b027f0"
 
 [[package]]
 name = "suika_server"
-version = "0.1.5"
+version = "0.1.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f35d14c715213007ef8126f885214d9311c00753f9207e95d8e439a729afd733"
+checksum = "771d6d6a63eabcb75ca4c3fe109c217a206e85eb09f19233afcba5fed925a957"
 dependencies = [
  "futures",
  "regex",
@@ -412,10 +418,12 @@ dependencies = [
 
 [[package]]
 name = "suika_templates"
-version = "0.1.3"
+version = "0.1.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "092517b6c1f6101d7330884a2eaa0cdc576836683906f4a3beae58e7c6b236ba"
+checksum = "9508e3e78cbead64c930369657f0cecf4ed6891ff698fd322f524104d6406543"
 dependencies = [
+ "glob",
+ "suika_json",
  "suika_utils",
 ]
 
